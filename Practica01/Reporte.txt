@@ -1,0 +1,3 @@
+El tiempo de transformacion de las imagenes de color a gris es: 0.000231 seg
+El tiempo de generacion de los histogramas de color es: 0.001623 seg
+El tiempo de generacion de los histogramas de escala de grises es: 0.001661 seg
