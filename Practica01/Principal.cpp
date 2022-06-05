@@ -21,4 +21,5 @@ int main(int argc, char *argv[]){
     m->parte1();
     m->CarpetasParte2();
     m->parte2();
+    m->parte3();
 }

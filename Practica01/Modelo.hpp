@@ -28,4 +28,5 @@ class Modelo{
             void parte2();
             void parte1();
             void CarpetasParte2();
+            void parte3();
 };

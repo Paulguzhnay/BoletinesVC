@@ -34,6 +34,15 @@ Mat BlurPimienta;
 Mat GrisSal;
 Mat GrisPimienta;
 
+// Variables Parte 2
+Mat original;
+Mat erosion;
+Mat dilatacion;
+Mat top;
+Mat black;
+Mat resta;
+Mat final;
+
 void eventoTrackSal(int v, void *data){
 }
 
@@ -201,14 +210,45 @@ int main(int argc, char *argv[]){
                 break;
             }
         }
-
-
-
-
-
-
         video.release();
         cv::destroyAllWindows();
+
+        //-------------------------------PARTE 2------------------------------------
+        original =  imread("./images/photo3.jpeg");
+
+        namedWindow("Original", WINDOW_AUTOSIZE);
+        namedWindow("Erosion", WINDOW_AUTOSIZE);
+        namedWindow("Dilatacion", WINDOW_AUTOSIZE);
+        namedWindow("Top-Hart", WINDOW_AUTOSIZE);
+        namedWindow("Black-Hart", WINDOW_AUTOSIZE);
+        namedWindow("Producto-Final", WINDOW_AUTOSIZE);
+
+        cvtColor(original, original, COLOR_BGR2GRAY);
+        resize(original, original, Size(350,400));
+
+        imshow("Original", original);
+
+        Mat mascara = getStructuringElement(MORPH_CROSS, Size(39,39));
+
+        erode(original, erosion, mascara, Point(-1, -1), 5);
+        imshow("Erosion", erosion);
+
+        dilate(original, dilatacion, mascara, Point(-1, -1), 5);
+        imshow("Dilatacion", dilatacion);
+
+        morphologyEx(original, top, MORPH_TOPHAT, mascara, Point(-1, -1), 5);
+        imshow("Top-Hart", top);
+
+        morphologyEx(original, black, MORPH_BLACKHAT, mascara, Point(-1, -1), 5);
+        imshow("Black-Hart", black);
+
+        absdiff(top, black, resta);
+        add(original, resta, final);
+        imshow("Producto-Final", final);
+
+        waitKey();
+        destroyAllWindows();
+
     }
 }
 

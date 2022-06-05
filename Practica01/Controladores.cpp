@@ -1221,3 +1221,74 @@ int FGrisFila4_3=FalloGrisFila4_3.size();
     cout<<"Test 4"<<" |"<<FGrisFila4_1<<"    |"<<FGrisFila4_2<<"    |"<<FGrisFila4_3<<"    |"<<AcGrisfila4_4<<endl;
 
 }
+//------------------------PARTE 3-------------------------------
+
+int thres = 0;
+Mat frame;
+Mat conversion;
+Mat nueva;
+VideoCapture video("/dev/video0");
+int n = 0;
+
+void eventoTrack(int v, void*data){ 
+    
+}
+
+void locator(int event, int x, int y, int flags, void* userdata){ //function to track mouse movement and click//
+   if (event == EVENT_LBUTTONDOWN){ //when left button clicked//
+        string path = "/home/computacion/Descargas/Practica1/Imagenes Guardadas/imagen"+to_string(n)+".jpeg";
+        imwrite(path,conversion);
+        n += 1;
+   }
+}
+
+void Modelo::parte3(){
+    if(video.isOpened()){
+
+        namedWindow("Video", WINDOW_AUTOSIZE);
+        namedWindow("Conversion", WINDOW_AUTOSIZE);
+
+        while(3==3){
+            video >> frame;
+
+            if(frame.empty()){
+                break;
+            }
+            imshow("Video", frame);
+            createTrackbar("Color", "Video", &thres, 4, eventoTrack, NULL);
+            setMouseCallback("Conversion", locator, NULL);
+            if(waitKey(33)==27){
+                break;
+            }
+
+            switch(thres){
+                case 0:
+                    imshow("Conversion", frame);
+                    break;
+                case 1:
+                    cvtColor(frame, conversion, COLOR_BGR2HSV);
+                    imshow("Conversion", conversion);
+                    cout << "Valor: " << thres << endl;
+                    break;
+                case 2:
+                    cvtColor(frame, conversion, COLOR_BGR2Lab);
+                    imshow("Conversion", conversion);
+                    cout << "Valor: " << thres << endl;
+                    break;
+                case 3:
+                    cvtColor(frame, conversion, COLOR_BGR2YCrCb);
+                    imshow("Conversion", conversion);
+                    cout << "Valor: " << thres << endl;
+                    break;
+                case 4:
+                    cvtColor(frame, conversion, COLOR_BGR2GRAY);
+                    imshow("Conversion", conversion);
+                    cout << "Valor: " << thres << endl;
+                    break;
+            }
+            
+        }    
+        video.release();
+        destroyAllWindows();
+    }
+}
